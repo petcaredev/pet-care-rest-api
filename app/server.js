@@ -10,6 +10,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/storage/uploads/static', express.static('storage/uploads/static'));
 
 const db = require('./models');
 const seed = require('./seeders');
@@ -31,6 +32,7 @@ app.get('/', (req, res) => {
 require('./routes/example.routes')(app);
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
+require('./routes/clinic.routes')(app);
 
 app.all('*', (req, res) => {
   res.status(404).send({
