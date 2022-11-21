@@ -7,7 +7,7 @@ const validateFile = (req, file, cb) => {
   if (allowedMimes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(JSON.stringify({ message: 'Please only upload image file.' }));
+    cb(new Error('Hanya menerima file gambar'));
   }
 };
 

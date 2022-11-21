@@ -21,7 +21,7 @@ module.exports = (app) => {
         if (err) {
           return res.status(400).json({
             error: true,
-            message: 'Please only upload image file.',
+            message: 'Hanya menerima file gambar',
           });
         }
         next();
