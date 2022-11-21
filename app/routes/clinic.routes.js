@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { authJwt, checkUserHasClinic, uploadFile } = require('../middleware');
+const { clinicValidator } = require('../validators');
 const controller = require('../controllers/clinic.controller');
 
 module.exports = (app) => {
@@ -15,7 +16,18 @@ module.exports = (app) => {
   router.post(
     '/',
     [authJwt.verifyToken, authJwt.isClinic, checkUserHasClinic],
-    uploadFile.single('posterPath'),
+    (req, res, next) => {
+      uploadFile.single('posterPath')(req, res, (err) => {
+        if (err) {
+          return res.status(400).json({
+            error: true,
+            message: 'Please only upload image file.',
+          });
+        }
+        next();
+      });
+    },
+    clinicValidator.store,
     controller.store,
   );
   router.get('/:id', [authJwt.verifyToken], controller.show);
