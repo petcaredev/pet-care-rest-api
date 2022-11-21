@@ -22,19 +22,22 @@ db.sequelize = sequelize;
 db.examples = require('./example.model')(sequelize, Sequelize);
 db.user = require('./user.model')(sequelize, Sequelize);
 db.role = require('./role.model')(sequelize, Sequelize);
+db.clinic = require('./clinic.model')(sequelize, Sequelize);
 
+// pivot table between user and role
 db.role.belongsToMany(db.user, {
   through: 'user_roles',
   foreignKey: 'roleId',
   otherKey: 'userId',
 });
-
 db.user.belongsToMany(db.role, {
   through: 'user_roles',
   foreignKey: 'userId',
   otherKey: 'roleId',
 });
-
 db.ROLES = ['user', 'clinic'];
+
+// relation between clinic and user
+db.clinic.belongsTo(db.user);
 
 module.exports = db;
