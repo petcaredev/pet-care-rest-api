@@ -34,12 +34,30 @@ const verifyToken = (req, res, next) => {
   });
 };
 
+const isUser = (req, res, next) => {
+  User.findByPk(req.userId).then((user) => {
+    user.getRoles().then((roles) => {
+      for (let i = 0; i < roles.length; i += 1) {
+        if (roles[i].name === 'user') {
+          next();
+          return;
+        }
+      }
+
+      res.status(403).send({
+        message: 'Memerlukan hak akses pengguna!',
+      });
+    });
+  });
+};
+
 const isClinic = (req, res, next) => {
   User.findByPk(req.userId).then((user) => {
     user.getRoles().then((roles) => {
       for (let i = 0; i < roles.length; i += 1) {
         if (roles[i].name === 'clinic') {
           next();
+          return;
         }
       }
 
@@ -52,6 +70,7 @@ const isClinic = (req, res, next) => {
 
 const authJwt = {
   verifyToken,
+  isUser,
   isClinic,
 };
 module.exports = authJwt;
