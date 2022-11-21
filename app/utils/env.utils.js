@@ -1,7 +1,7 @@
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 
 const env = (key, defaultValue = null) => {
-  let value = dotenv.parsed[key];
+  let value = process.env[key];
 
   if (defaultValue !== null) {
     value = defaultValue;
