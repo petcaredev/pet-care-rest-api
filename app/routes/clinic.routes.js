@@ -31,11 +31,22 @@ module.exports = (app) => {
     controller.store,
   );
   router.get('/:id', [authJwt.verifyToken], controller.show);
-  // router.put(
-  //   '/:id',
-  //   [authJwt.verifyToken, authJwt.isClinic],
-  //   controller.update,
-  // );
+  router.put(
+    '/:id',
+    [authJwt.verifyToken, authJwt.isClinic],
+    (req, res, next) => {
+      uploadFile.single('posterPath')(req, res, (err) => {
+        if (err) {
+          return res.status(400).json({
+            error: true,
+            message: 'Hanya menerima file gambar',
+          });
+        }
+        next();
+      });
+    },
+    controller.update,
+  );
   router.get(
     '/search/:q',
     [authJwt.verifyToken, authJwt.isUser],
