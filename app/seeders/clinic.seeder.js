@@ -5,10 +5,11 @@ const generateImage = require('../utils/generateImage.utils');
 
 if (!fs.existsSync(`${path}/storage/uploads/static/`)) {
   fs.mkdirSync(`${path}/storage/uploads/static/`, { recursive: true });
-  fs.readdirSync(`${path}/storage/uploads/static/`).forEach((file) => {
-    fs.unlinkSync(`${path}/storage/uploads/static/${file}`);
-  });
 }
+
+fs.readdirSync(`${path}/storage/uploads/static/`).forEach((file) => {
+  fs.unlinkSync(`${path}/storage/uploads/static/${file}`);
+});
 
 const Clinic = db.clinic;
 
