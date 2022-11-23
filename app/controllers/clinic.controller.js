@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path').resolve('./');
 const db = require('../models');
 
 const Clinic = db.clinic;
@@ -104,32 +106,40 @@ exports.show = (req, res) => {
     });
 };
 
-// exports.update = (req, res) => {
-//   const { id } = req.params;
+exports.update = (req, res) => {
+  const { id } = req.params;
+  Clinic.update(req.body, {
+    where: { id },
+  })
+    .then((result) => {
+      if (result == 1) {
+        if (req.file) {
+          const { filename: posterPath } = req.file;
+          Clinic.update({ posterPath }, { where: { id } });
 
-//   Clinic.update(req.body, {
-//     where: { id },
-//   })
-//     .then((result) => {
-//       if (result == 1) {
-//         res.status(200).send({
-//           error: false,
-//           message: 'Data klinik berhasil diubah.',
-//         });
-//       } else {
-//         res.status(404).send({
-//           error: true,
-//           message: 'Data klinik tidak ditemukan.',
-//         });
-//       }
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         error: true,
-//         message: err.message || 'Terjadi kesalahan saat mengubah data klinik',
-//       });
-//     });
-// };
+          Clinic.findByPk(id).then((data) => {
+            fs.unlinkSync(`${path}/storage/uploads/static/${data.posterPath}`);
+          });
+        }
+
+        res.status(200).send({
+          error: false,
+          message: 'Data klinik berhasil diubah.',
+        });
+      } else {
+        res.status(404).send({
+          error: true,
+          message: 'Data klinik tidak ditemukan.',
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        error: true,
+        message: err.message || 'Terjadi kesalahan saat mengubah data klinik',
+      });
+    });
+};
 
 exports.search = (req, res) => {
   const { q } = req.params;
