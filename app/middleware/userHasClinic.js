@@ -11,13 +11,15 @@ const checkUserHasClinic = async (req, res, next) => {
     },
   });
 
-  if (clinic) {
-    return res.status(403).send({
-      message: 'Anda sudah memiliki klinik!',
-    });
+  if (!clinic) {
+    next();
+    return;
   }
 
-  next();
+  res.status(403).send({
+    error: true,
+    message: 'Pengguna tidak ditemukan atau anda sudah memiliki klinik.',
+  });
 };
 
 module.exports = checkUserHasClinic;
