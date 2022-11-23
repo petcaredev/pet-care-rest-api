@@ -155,7 +155,17 @@ exports.search = (req, res) => {
       res.status(200).send({
         error: false,
         message: 'Data klinik.',
-        data,
+        data: data.map((clinic) => ({
+          id: clinic.id,
+          name: clinic.name,
+          address: clinic.address,
+          posterPath: `${req.protocol}://${req.get(
+            'host',
+          )}/storage/uploads/static/${clinic.posterPath}`,
+          phone: clinic.phone,
+          createdAt: clinic.createdAt,
+          updatedAt: clinic.updatedAt,
+        })),
       });
     })
     .catch((err) => {
