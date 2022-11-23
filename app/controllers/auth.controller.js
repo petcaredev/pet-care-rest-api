@@ -28,12 +28,12 @@ exports.signup = (req, res) => {
         user.setRoles(roles).then(() => {
           res
             .status(200)
-            .send({ errpr: false, message: 'Pengguna berhasil didaftarkan!' });
+            .send({ error: false, message: 'Pengguna berhasil didaftarkan!' });
         });
       });
     })
     .catch((err) => {
-      res.status(500).send({ errpr: true, message: err.message });
+      res.status(500).send({ error: true, message: err.message });
     });
 };
 
