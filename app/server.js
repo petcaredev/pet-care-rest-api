@@ -5,7 +5,10 @@ const env = require('./utils/env.utils');
 const app = express();
 
 const corsOptions = {
-  origin: ['http://localhost:8080', 'https://hoppscotch.io'],
+  origin: [
+    'https://pet-care-rest-api-production.up.railway.app',
+    'https://hoppscotch.io',
+  ],
 };
 
 app.use(cors(corsOptions));
