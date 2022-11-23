@@ -2,7 +2,7 @@
   "name": "pet-care-rest-api",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "./app/server.js",
   "scripts": {
     "start": "nodemon ./app/server.js",
     "lint": "eslint ./app"
