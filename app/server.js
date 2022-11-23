@@ -42,14 +42,9 @@ app.all('*', (req, res) => {
   });
 });
 
-let port;
+const PORT =
+  env('APP_MODE') === 'production' ? env('APP_PORT') : env('APP_PORT', 8080);
 
-if (env('APP_MODE') === 'production') {
-  port = env('APP_PORT');
-} else {
-  port = env('APP_PORT', 8080);
-}
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}.`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
 });
