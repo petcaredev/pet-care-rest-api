@@ -27,7 +27,7 @@ db.sequelize
   });
 
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the restful api.' });
+  res.json({ message: 'Welcome to the pet care restful api.' });
 });
 
 require('./routes/example.routes')(app);
@@ -43,7 +43,7 @@ app.all('*', (req, res) => {
 });
 
 const PORT =
-  env('APP_MODE') === 'production' ? env('APP_PORT') : env('APP_PORT', 8080);
+  env('APP_MODE') === 'production' ? env('APP_PORT', 80) : env('APP_PORT');
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
