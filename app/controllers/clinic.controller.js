@@ -11,6 +11,7 @@ exports.index = (req, res) => {
       res.status(200).send({
         error: false,
         message: 'Data klinik.',
+        count: data.length,
         data: data.map((clinic) => ({
           id: clinic.id,
           name: clinic.name,
@@ -74,8 +75,10 @@ exports.show = (req, res) => {
   const { id } = req.params;
 
   Clinic.findByPk(id)
-    .then((data) => {
+    .then(async (data) => {
       if (data) {
+        const services = await data.getServices();
+
         res.status(200).send({
           error: false,
           message: 'Data klinik ditemukan.',
@@ -89,6 +92,12 @@ exports.show = (req, res) => {
             phone: data.phone,
             createdAt: data.createdAt,
             updatedAt: data.updatedAt,
+            services: services.map((service) => ({
+              id: service.id,
+              name: service.name,
+              price: service.price,
+              description: service.description,
+            })),
           },
         });
       } else {
