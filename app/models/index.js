@@ -20,10 +20,10 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.examples = require('./example.model')(sequelize, Sequelize);
 db.user = require('./user.model')(sequelize, Sequelize);
 db.role = require('./role.model')(sequelize, Sequelize);
 db.clinic = require('./clinic.model')(sequelize, Sequelize);
+db.service = require('./service.model')(sequelize, Sequelize);
 
 // pivot table between user and role
 db.role.belongsToMany(db.user, {
@@ -39,6 +39,11 @@ db.user.belongsToMany(db.role, {
 db.ROLES = ['user', 'clinic'];
 
 // relation between clinic and user
+db.user.hasOne(db.clinic);
 db.clinic.belongsTo(db.user);
+
+// relation between service and clinic
+db.clinic.hasMany(db.service);
+db.service.belongsTo(db.clinic);
 
 module.exports = db;
