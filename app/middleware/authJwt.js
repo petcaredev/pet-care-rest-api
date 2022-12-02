@@ -26,6 +26,7 @@ const verifyToken = (req, res, next) => {
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
       return res.status(401).send({
+        error: true,
         message: 'Tidak memiliki akses!',
       });
     }
@@ -45,6 +46,7 @@ const isUser = (req, res, next) => {
       }
 
       res.status(403).send({
+        error: true,
         message: 'Memerlukan hak akses pengguna!',
       });
     });
@@ -62,6 +64,7 @@ const isClinic = (req, res, next) => {
       }
 
       res.status(403).send({
+        error: true,
         message: 'Memerlukan hak akses klinik!',
       });
     });

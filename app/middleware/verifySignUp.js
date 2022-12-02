@@ -12,6 +12,7 @@ const checkDuplicateEmail = (req, res, next) => {
   }).then((user) => {
     if (user) {
       res.status(400).send({
+        error: true,
         message: 'Gagal! Email sudah digunakan!',
       });
       return;
@@ -26,6 +27,7 @@ const checkRolesExisted = (req, res, next) => {
     for (let i = 0; i < req.body.roles.length; i += 1) {
       if (!ROLES.includes(req.body.roles[i])) {
         res.status(400).send({
+          error: true,
           message: `Gagal! Peran ${req.body.roles[i]} tidak ada!`,
         });
         return;
