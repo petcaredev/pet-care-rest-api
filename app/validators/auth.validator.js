@@ -27,7 +27,7 @@ const signup = [
     .withMessage('Alamat tidak boleh kosong.')
     .isLength({ min: 10 })
     .withMessage('Alamat minimal 10 karakter.'),
-  body('role').notEmpty().withMessage('Role tidak boleh kosong.'),
+  body('roles').notEmpty().withMessage('Role tidak boleh kosong.'),
   validationResultUtils,
 ];
 

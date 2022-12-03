@@ -7,6 +7,8 @@ const config = require('../config/auth.config');
 const User = db.user;
 const Role = db.role;
 
+const { Op } = db.Sequelize;
+
 exports.signup = (req, res) => {
   User.create({
     name: req.body.name,
@@ -18,7 +20,9 @@ exports.signup = (req, res) => {
     .then((user) => {
       Role.findAll({
         where: {
-          name: req.body.role,
+          name: {
+            [Op.or]: req.body.roles,
+          },
         },
       }).then((roles) => {
         user.setRoles(roles).then(() => {
