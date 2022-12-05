@@ -1,11 +1,7 @@
 const fs = require('fs');
 const path = require('path').resolve('./');
 
-const generateImage = () => {
-  const defaultImageBuffer = fs.readFileSync(
-    `${path}/public/assets/images/default.jpeg`,
-  );
-
+const generateImage = (defaultImageBuffer) => {
   const ext = '.jpeg';
   const fileName = `${Math.random()
     .toString(36)

@@ -26,9 +26,10 @@ exports.signup = (req, res) => {
         },
       }).then((roles) => {
         user.setRoles(roles).then(() => {
-          res
-            .status(200)
-            .send({ error: false, message: 'Pengguna berhasil didaftarkan!' });
+          res.status(201).send({
+            error: false,
+            message: 'Anda berhasil mendaftar, silahkan login!',
+          });
         });
       });
     })
