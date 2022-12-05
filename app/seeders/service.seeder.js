@@ -24,7 +24,7 @@ const init = () => {
     },
   ];
 
-  const clinicId = [1, 2, 3, 4, 5];
+  const clinicId = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   for (let j = 0; j < clinicId.length; j += 1) {
     for (let k = 0; k < 3; k += 1) {
