@@ -14,6 +14,7 @@
    - **DB_USER**=_your-database-user_
    - **DB_PASSWORD**=_your-database-password_
    - **JWT_SECRET**=_your-jwt-secret_
+   - **GOOGLE_MAPS_API_KEY**=_your-google-maps-api-key_
 4. ## Running this project
 
    - running linter `npm run lint`
