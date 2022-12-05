@@ -36,7 +36,7 @@ exports.store = (req, res) => {
 
   Service.create(service)
     .then((data) => {
-      res.status(200).send({
+      res.status(201).send({
         error: false,
         message: 'Data layanan berhasil ditambahkan.',
         data,
@@ -79,7 +79,8 @@ exports.show = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         error: true,
-        message: err.message || 'Terjadi kesalahan saat mengambil data layanan',
+        message:
+          err.message || 'Terjadi kesalahan saat mengambil data layanan.',
       });
     });
 };

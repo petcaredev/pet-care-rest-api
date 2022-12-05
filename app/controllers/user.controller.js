@@ -32,7 +32,7 @@ exports.show = (req, res) => {
       res.status(500).send({
         error: true,
         message:
-          err.message || 'Terjadi kesalahan saat mengambil data pengguna',
+          err.message || 'Terjadi kesalahan saat mengambil data pengguna.',
       });
     });
 };
@@ -60,7 +60,7 @@ exports.update = (req, res) => {
       res.status(500).send({
         error: true,
         message:
-          err.message || 'Terjadi kesalahan saat memperbarui data pengguna',
+          err.message || 'Terjadi kesalahan saat memperbarui data pengguna.',
       });
     });
 };
