@@ -34,6 +34,7 @@ require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
 require('./routes/clinic.routes')(app);
 require('./routes/service.routes')(app);
+require('./routes/reservation.routes')(app);
 
 app.all('*', (req, res) => {
   res.status(404).send({
