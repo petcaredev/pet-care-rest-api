@@ -153,37 +153,44 @@ exports.update = (req, res) => {
     });
 };
 
-exports.search = (req, res) => {
+exports.search = async (req, res) => {
   const { q } = req.params;
+  const { origin } = req.query;
 
-  Clinic.findAll({
+  const clinics = await Clinic.findAll({
     where: {
       name: {
         [Op.like]: `%${q}%`,
       },
     },
-  })
-    .then((data) => {
-      res.status(200).send({
-        error: false,
-        message: 'Data klinik.',
-        data: data.map((clinic) => ({
-          id: clinic.id,
-          name: clinic.name,
-          address: clinic.address,
-          posterPath: `${req.protocol}://${req.get(
-            'host',
-          )}/storage/uploads/static/${clinic.posterPath}`,
-          phone: clinic.phone,
-          createdAt: clinic.createdAt,
-          updatedAt: clinic.updatedAt,
-        })),
-      });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        error: true,
-        message: err.message || 'Terjadi kesalahan saat mengambil data klinik.',
-      });
-    });
+  });
+
+  const result = clinics.map(async (clinic) => ({
+    id: clinic.id,
+    name: clinic.name,
+    address: clinic.address,
+    posterPath: `${req.protocol}://${req.get('host')}/storage/uploads/static/${
+      clinic.posterPath
+    }`,
+    phone: clinic.phone,
+    distance: await getDistance(origin, clinic.address),
+    createdAt: clinic.createdAt,
+    updatedAt: clinic.updatedAt,
+  }));
+
+  const sorted = await Promise.all(result).then((data) =>
+    data.sort((a, b) => a.distance - b.distance),
+  );
+
+  const converted = sorted.map((clinic) => ({
+    ...clinic,
+    distance: convertToKilometers(clinic.distance) ?? NaN,
+  }));
+
+  res.status(200).send({
+    error: false,
+    message: 'Data klinik.',
+    count: converted.length,
+    data: converted,
+  });
 };
