@@ -9,7 +9,7 @@ const init = async () => {
     name: 'Faza Iman Imron',
     email: 'fazaimanimron@gmail.com',
     password: bcrypt.hashSync('fazaimanimron', 8),
-    phone: '1234567890',
+    phone: '081234973494',
     address:
       'Gg. Sadewo No.39b, Dero, Condongcatur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta',
   }).then((user) => {
