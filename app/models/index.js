@@ -24,6 +24,7 @@ db.user = require('./user.model')(sequelize, Sequelize);
 db.role = require('./role.model')(sequelize, Sequelize);
 db.clinic = require('./clinic.model')(sequelize, Sequelize);
 db.service = require('./service.model')(sequelize, Sequelize);
+db.reservation = require('./reservation.model')(sequelize, Sequelize);
 
 // pivot table between user and role
 db.role.belongsToMany(db.user, {
@@ -45,5 +46,25 @@ db.clinic.belongsTo(db.user);
 // relation between service and clinic
 db.clinic.hasMany(db.service);
 db.service.belongsTo(db.clinic);
+
+// relation between reservation and user
+db.user.hasMany(db.reservation);
+db.reservation.belongsTo(db.user);
+
+// relation between reservation and clinic
+db.clinic.hasMany(db.reservation);
+db.reservation.belongsTo(db.clinic);
+
+// pivot table between reservation and service
+db.reservation.belongsToMany(db.service, {
+  through: 'reservation_details',
+  foreignKey: 'reservationId',
+  otherKey: 'serviceId',
+});
+db.service.belongsToMany(db.reservation, {
+  through: 'reservation_details',
+  foreignKey: 'serviceId',
+  otherKey: 'reservationId',
+});
 
 module.exports = db;
