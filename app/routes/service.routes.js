@@ -23,7 +23,7 @@ module.exports = (app) => {
     serviceValidator.store,
     controller.store,
   );
-  router.get('/:id', [authJwt.verifyToken, authJwt.isClinic], controller.show);
+  router.get('/:id', [authJwt.verifyToken], controller.show);
   router.put(
     '/:id',
     [authJwt.verifyToken, authJwt.isClinic],
