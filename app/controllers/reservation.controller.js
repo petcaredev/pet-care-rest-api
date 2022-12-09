@@ -138,3 +138,107 @@ exports.update = async (req, res) => {
     message: 'Reservasi telah selesai.',
   });
 };
+
+module.exports.getAllReservationByUser = async (req, res) => {
+  const { id } = req.params;
+
+  const user = await User.findByPk(id);
+
+  if (!user) {
+    return res.status(404).send({
+      error: true,
+      message: 'Data user tidak ditemukan.',
+    });
+  }
+
+  const reservation = await Reservation.findAll({
+    where: {
+      userId: id,
+    },
+    attributes: [
+      'id',
+      'date',
+      'petName',
+      'petType',
+      'description',
+      'status',
+      'createdAt',
+      'updatedAt',
+    ],
+    include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: ['id', 'name', 'email', 'phone', 'address'],
+      },
+      {
+        model: Clinic,
+        as: 'clinic',
+        attributes: ['id', 'name', 'address', 'phone'],
+      },
+      {
+        model: Service,
+        as: 'services',
+        attributes: ['id', 'name', 'price'],
+      },
+    ],
+  });
+
+  res.status(200).send({
+    error: false,
+    message: 'Data reservasi berhasil ditemukan.',
+    data: reservation,
+  });
+};
+
+module.exports.getAllReservationByClinic = async (req, res) => {
+  const { id } = req.params;
+
+  const clinic = await Clinic.findByPk(id);
+
+  if (!clinic) {
+    return res.status(404).send({
+      error: true,
+      message: 'Data klinik tidak ditemukan.',
+    });
+  }
+
+  const reservation = await Reservation.findAll({
+    where: {
+      clinicId: id,
+    },
+    attributes: [
+      'id',
+      'date',
+      'petName',
+      'petType',
+      'description',
+      'status',
+      'createdAt',
+      'updatedAt',
+    ],
+    include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: ['id', 'name', 'email', 'phone', 'address'],
+      },
+      {
+        model: Clinic,
+        as: 'clinic',
+        attributes: ['id', 'name', 'address', 'phone'],
+      },
+      {
+        model: Service,
+        as: 'services',
+        attributes: ['id', 'name', 'price'],
+      },
+    ],
+  });
+
+  res.status(200).send({
+    error: false,
+    message: 'Data reservasi berhasil ditemukan.',
+    data: reservation,
+  });
+};
